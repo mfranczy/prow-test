@@ -1,5 +1,5 @@
 presubmits:
-  hemanik/prow-test:
+  mfranczy/prow-test:
   - name: unit-tests         # As for periodics.
     always_run: true         # Run for every PR, or only when requested.
     skip_report: false       # Whether to skip setting a status on GitHub.
