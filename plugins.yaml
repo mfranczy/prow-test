@@ -1,6 +1,4 @@
 plugins:
-  hemanik/prow-test:
-  - size
-  - cat
-  - dog
-  - trigger
+  mfranczy/prow-test:
+    - size
+    - trigger

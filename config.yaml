@@ -1,15 +1,41 @@
+prowjob_namespace: default
+pod_namespace: test-pods
+plank:
+  default_decoration_config:
+    utility_images: # using the tag we identified above
+      clonerefs: "gcr.io/k8s-prow/clonerefs:v20190711-664ef040d"
+      initupload: "gcr.io/k8s-prow/initupload:v20190711-664ef040d"
+      entrypoint: "gcr.io/k8s-prow/entrypoint:v20190711-664ef040d"
+      sidecar: "gcr.io/k8s-prow/sidecar:v20190711-664ef040d"
+    gcs_configuration:
+      bucket: prow-artifacts-test # the bucket we just made
+      path_strategy: explicit
+    gcs_credentials_secret: gcs-credentials # the secret we just made
+
+deck:
+  spyglass:
+    size_limit: 500e+6 # 500MB
+    lenses:
+      - required_files:
+        - "build-log.txt"  
+        lens:
+          name: buildlog
+      - required_files:
+        - "artifacts/swagger.json"
+        - "artifacts/audit.log"
+        lens:
+          name: crdrestcoverage
+
 presubmits:
   mfranczy/prow-test:
-  - name: unit-tests         # As for periodics.
-    always_run: true         # Run for every PR, or only when requested.
-    skip_report: false       # Whether to skip setting a status on GitHub.
-    context: unit-tests      # Status context. Usually the job name.
-    max_concurrency: 10      # As for postsubmits.
-    agent: kubernetes        # As for periodics.
+  - name: test-presubmit
+    decorate: true
+    always_run: true
+    skip_report: true
     spec:
       containers:
       - image: alpine
         command:
-        - printenv
-    trigger: "(?m)^/test this"
-    rerun_command: "/test this"s
+        - "/bin/sh"
+        - "-c"
+        - "wget -O ${ARTIFACTS}/swagger.json https://raw.githubusercontent.com/mfranczy/crd-rest-coverage/master/fixtures/petstore.json && wget -O ${ARTIFACTS}/audit.log https://raw.githubusercontent.com/mfranczy/crd-rest-coverage/master/fixtures/audit.log"
