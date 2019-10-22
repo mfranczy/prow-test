@@ -1,0 +1,51 @@
+{
+    "uniqueHits": 2,
+    "expectedUniqueHits": 4,
+    "percent": 50.00,
+    "endpoints": {
+        "/pets": {
+            "post": {
+                "uniqueHits": 2,
+                "expectedUniqueHits": 4,
+                "percent": 50.00,
+                "methodCalled": true,
+                "params": {
+                    "body": {
+                        "uniqueHits": 2,
+                        "expectedUniqueHits": 4,
+                        "percent": 50.00,
+                        "root": {
+                            "hits": 15,
+                            "items": {
+                                "origin": {
+                                   "hits": 8,
+                                   "items": {
+                                       "country": {
+                                           "hits": 8,
+                                           "items": {
+                                               "name": {
+                                                   "hits": 8
+                                               },
+                                               "region": {
+                                                   "hits": 0
+                                               }
+                                           }
+                                       }
+                                   }
+                                },
+                                "color": {
+                                    "hits": 0
+                                },
+                                "type": {
+                                    "hits": 7
+                                }
+                            }
+                        },
+                        "height": 4,
+                        "size": 7
+                    }
+                }
+            }
+        }
+    }
+}
